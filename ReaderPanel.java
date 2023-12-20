@@ -4,27 +4,27 @@ import Library.Book;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.IOException;
 
 public class ReaderPanel extends JPanel {
     private final JScrollPane CONTENTSCROLLPANE;
-    private final JButton PAGEUPBUTTON;
-    private final JButton PAGEDOWNBUTTON;
     private final JLabel TITLELABEL;
     private final JLabel BYLABEL;
     private final JLabel PAGELABEL;
     private final JTextArea CONTENTAREA;
 
+
     public ReaderPanel() {
+
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createTitledBorder("Reader"));
 
+
         JPanel informationPanel = new JPanel();
         informationPanel.setBorder(BorderFactory.createTitledBorder("Information"));
+
 
         TITLELABEL = new JLabel("Title:");
         TITLELABEL.setPreferredSize(new Dimension(300, 20));
@@ -50,22 +50,6 @@ public class ReaderPanel extends JPanel {
 
         this.add(CONTENTSCROLLPANE, BorderLayout.CENTER);
 
-        JPanel navigationPanel = new JPanel();
-        navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
-
-        PAGEUPBUTTON = new JButton("Page Up");
-        PAGEUPBUTTON.addActionListener(new PageButtonListener());
-        navigationPanel.add(PAGEUPBUTTON);
-        PAGEDOWNBUTTON = new JButton("Page Down");
-        PAGEDOWNBUTTON.addActionListener(new PageButtonListener());
-        navigationPanel.add(PAGEDOWNBUTTON);
-
-        this.add(navigationPanel, BorderLayout.SOUTH);
-
-    }
-
-    public JButton getPageDownButton() {
-        return this.PAGEDOWNBUTTON;
     }
 
     public JScrollPane getContentScrollPane() {
@@ -110,24 +94,6 @@ public class ReaderPanel extends JPanel {
             int totalPages = (maxInt / blockIncrement);
 
             PAGELABEL.setText("Page: " + currentPage + "/" + totalPages);
-            PAGEUPBUTTON.setEnabled(currentPageValue != 0);
-            PAGEDOWNBUTTON.setEnabled(currentPageValue + blockIncrement != maxInt);
         }
-    }
-
-    private class PageButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            int scrollPaneBlock = CONTENTSCROLLPANE.getVerticalScrollBar().getBlockIncrement(1);
-            int currentScrollValue = CONTENTSCROLLPANE.getVerticalScrollBar().getValue();
-
-            if (e.getSource() == PAGEUPBUTTON) {
-                CONTENTSCROLLPANE.getVerticalScrollBar().setValue(currentScrollValue - scrollPaneBlock);
-            } else {
-                CONTENTSCROLLPANE.getVerticalScrollBar().setValue(currentScrollValue + scrollPaneBlock);
-            }
-        }
-
     }
 }
